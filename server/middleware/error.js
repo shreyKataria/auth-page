@@ -8,7 +8,7 @@ const errorHandler = (err, req, res, next) => {
   console.log(err);
 
   if (err.code === 11000) {
-    const message = `Duplicate Fields Value Enter`;
+    const message = `User Already exist`;
     error = new ErrorResponse(message, 400);
   }
   if (err.name === "ValidationError") {

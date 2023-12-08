@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Form.scss";
 import { SignUp } from "../SignUp/SignUp";
 import { Login } from "../LogIn/Login";
+import { Link } from "react-router-dom";
 
 const Form = () => {
   const [open, setOpen] = useState(false);

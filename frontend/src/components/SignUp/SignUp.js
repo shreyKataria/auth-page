@@ -1,133 +1,92 @@
-// import { useForm } from "react-hook-form";
 import "./SignUp.scss";
 import { useState } from "react";
+import axios from "axios";
 
 export const SignUp = () => {
-  const formData = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
-    button: "GET STARTED",
-  };
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [formInput, setFormInput] = useState(formData);
-  const [formError, setFormError] = useState(formData);
+  const [formError, setFormError] = useState("");
 
-  const handleUserInput = (name, value) => {
-    setFormInput({
-      ...formInput,
-      [name]: value,
-    });
-    console.log(value);
-  };
-
-  const validateFormInput = (event) => {
+  const validateFormInput = async (event) => {
     event.preventDefault();
-    let inputError = {
-      email: "",
-      password: "",
-      confirmPassword: "",
+
+    const config = {
+      header: {
+        "Content-type": "application/json",
+      },
     };
-
-    if (!formInput.email && !formInput.password) {
-      setFormError({
-        ...inputError,
-        email: "Enter valid email address",
-        password: "Password should not be empty",
-      });
-      return;
+    if (password !== confirmPassword) {
+      setPassword("");
+      setConfirmPassword("");
+      setTimeout(() => setFormError(""), 5000);
+      return setFormError("Password Do not match");
     }
 
-    if (!formInput.email) {
-      setFormError({
-        ...inputError,
-        email: "Enter valid email address",
-      });
-      return;
+    try {
+      const data = await axios.post(
+        "http://localhost:8080/user/signup",
+        {
+          username,
+          email,
+          password,
+        },
+        config
+      );
+      localStorage.setItem("authToken", data.token);
+      if (data.status === 201) {
+        alert("user added succesfully");
+      }
+      console.log(data);
+    } catch (error) {
+      setFormError(error.response.data.error);
+      setTimeout(() => {
+        setFormError("");
+      }, 5000);
     }
-
-    if (formInput.confirmPassword !== formInput.password) {
-      setFormError({
-        ...inputError,
-        confirmPassword: "Password and confirm password should be same",
-      });
-      return;
-    }
-
-    if (!formInput.password) {
-      setFormError({
-        ...inputError,
-        password: "Password should not be empty",
-      });
-      return;
-    }
-
-    setFormError(inputError);
   };
 
   return (
     <form className="form-container" onSubmit={validateFormInput}>
+      {formError && <span className="error-message">{formError}</span>}
       <input
-        value={formInput.firstname}
+        value={firstname}
         placeholder="First Name"
-        onChange={({ target }) => {
-          handleUserInput(target.name, target.value);
-        }}
-        name="firstname"
+        onChange={(e) => setFirstname(e.target.value)}
       />
 
       <input
-        value={formInput.lastname}
+        value={lastname}
         placeholder="Last Name"
-        onChange={({ target }) => {
-          handleUserInput(target.name, target.value);
-        }}
-        name="lastname"
+        onChange={(e) => setLastname(e.target.value)}
       />
       <input
-        value={formInput.email}
+        value={email}
         placeholder="Email"
-        onChange={({ target }) => {
-          handleUserInput(target.name, target.value);
-        }}
-        name="email"
+        onChange={(e) => setEmail(e.target.value)}
       />
-      <p className="error-message">{formError.email}</p>
       <input
-        value={formInput.username}
+        value={username}
         placeholder="Username"
-        onChange={({ target }) => {
-          handleUserInput(target.name, target.value);
-        }}
-        name="username"
+        onChange={(e) => setUsername(e.target.value)}
       />
       <input
-        value={formInput.password}
+        value={password}
         type="password"
         placeholder="Password"
-        onChange={({ target }) => {
-          handleUserInput(target.name, target.value);
-        }}
-        name="password"
+        onChange={(e) => setPassword(e.target.value)}
       />
-      <p className="error-message">{formError.password}</p>
       <input
-        value={formInput.confirmPassword}
+        value={confirmPassword}
         type="password"
         placeholder="Confirm Password"
-        onChange={({ target }) => {
-          handleUserInput(target.name, target.value);
-        }}
-        name="confirmPassword"
+        onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <p className="error-message">{formError.confirmPassword}</p>
-
-      {/* {errors.example && <span>This field is </span>} */}
-
-      <input type="submit" value={formInput.button} />
+      <input type="submit" value={"GET STARTED"} />
     </form>
   );
 };
