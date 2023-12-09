@@ -9,12 +9,11 @@ const PrivateComponent = () => {
 
   useEffect(() => {
     if (localStorage.getItem("authToken")) {
-      Navigate("/");
+      Navigate("/private");
     }
-
     const fetchData = async () => {
       const config = {
-        header: {
+        headers: {
           "content-Type": "application/json",
           Authorization: `loki ${localStorage.getItem("authToken")}`,
         },
@@ -28,7 +27,8 @@ const PrivateComponent = () => {
         setPrivateData(data.data);
       } catch (error) {
         localStorage.removeItem("authToken");
-        setError("UOu are not authorized please login");
+        setError("You are not authorized please login");
+        console.log(error);
       }
     };
     fetchData();
@@ -44,7 +44,9 @@ const PrivateComponent = () => {
   ) : (
     <>
       <div>{privateData}</div>
-      <button onClick={logoutHandler}>Logout</button>
+      <button className="btn-secondary" onClick={logoutHandler}>
+        Logout
+      </button>
     </>
   );
 };

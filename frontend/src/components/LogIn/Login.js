@@ -46,21 +46,29 @@ export const Login = () => {
   };
 
   return (
-    <form className="form-container" onSubmit={validateFormInput}>
-      {formError && <span className="error-message">{formError}</span>}
-      <input
-        value={email}
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+    <div className="signup-form">
+      <form className="form-container" onSubmit={validateFormInput}>
+        <div className="heading">
+          <h2>Explore & Experience</h2>
+          <small>
+            Get onto your most comfortable journey yet. All the way up.
+          </small>
+        </div>
+        {formError && <span className="error-message">{formError}</span>}
+        <input
+          value={email}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        value={password}
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input type="submit" value={"LOGIN"} />
-    </form>
+        <input
+          value={password}
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input className="btn-primary" type="submit" value={"LOGIN"} />
+      </form>
+    </div>
   );
 };

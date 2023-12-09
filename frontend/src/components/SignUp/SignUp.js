@@ -51,42 +51,53 @@ export const SignUp = () => {
   };
 
   return (
-    <form className="form-container" onSubmit={validateFormInput}>
-      {formError && <span className="error-message">{formError}</span>}
-      <input
-        value={firstname}
-        placeholder="First Name"
-        onChange={(e) => setFirstname(e.target.value)}
-      />
+    <div className="signup-form">
+      <form className="form-container" onSubmit={validateFormInput}>
+        <div className="heading">
+          <h2>Explore & Experience</h2>
+          <small>
+            Get onto your most comfortable journey yet. All the way up.
+          </small>
+        </div>
+        {formError && <span className="error-message">{formError}</span>}
+        <div className="section-1">
+          <input
+            value={firstname}
+            placeholder="First Name"
+            onChange={(e) => setFirstname(e.target.value)}
+          />
 
-      <input
-        value={lastname}
-        placeholder="Last Name"
-        onChange={(e) => setLastname(e.target.value)}
-      />
-      <input
-        value={email}
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        value={username}
-        placeholder="Username"
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        value={password}
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input
-        value={confirmPassword}
-        type="password"
-        placeholder="Confirm Password"
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
-      <input type="submit" value={"GET STARTED"} />
-    </form>
+          <input
+            value={lastname}
+            placeholder="Last Name"
+            className="ml-2"
+            onChange={(e) => setLastname(e.target.value)}
+          />
+        </div>
+        <input
+          value={email}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          value={username}
+          placeholder="Username"
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          value={password}
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          value={confirmPassword}
+          type="password"
+          placeholder="Confirm Password"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <input className="btn-primary" type="submit" value={"GET STARTED"} />
+      </form>
+    </div>
   );
 };
